@@ -61,7 +61,7 @@ Per eseguire ESLint sul progetto:
 npm run lint
 ```
 
-Percorso e file principali
+## Percorso e file principali
 
 - `index.html` - template principale
 - `src/main.jsx` - punto d'ingresso React
@@ -74,7 +74,7 @@ Percorso e file principali
 - `src/context/` - gestione dello stato dei preferiti (context + provider)
 - `tailwind` - configurazione Tailwind integrata tramite dipendenze
 
-Dipendenze principali
+## Dipendenze principali
 
 - react, react-dom — UI
 - vite — dev server e build
@@ -83,34 +83,34 @@ Dipendenze principali
 - dompurify — sanitizzazione HTML
 - tailwindcss — utility-first CSS
 
-Dettagli implementativi rilevanti
+## Dettagli implementativi rilevanti
 
 - Le ricerche impostano `diet=vegetarian` di default nella chiamata a Spoonacular (`src/services/api.jsx`).
 - La pagina dei dettagli usa `DOMPurify` per sanitizzare `recipe.summary` prima di renderizzare HTML.
 - I preferiti sono salvati in `localStorage` dall'`FavoritesProvider`.
 
-Problemi comuni e troubleshooting
+## Problemi comuni e troubleshooting
 
 - Errore di richiesta o risposta vuota: controlla che `VITE_SPOONACULAR_API_KEY` sia impostata e valida.
 - Limiti di quota Spoonacular: l'API ha limiti nelle richieste; se superi la quota vedrai errori dalla API.
 
-Suggerimenti per lo sviluppo
+## Suggerimenti per lo sviluppo
 
 - Aggiungi un file `.env.local` (o usa il tuo metodo preferito) per non committare la chiave API.
 - Per test più robusti, considera di mockare le chiamate HTTP durante i test unitari.
 - Se vuoi rimuovere la limitazione al filtro `vegetarian`, modifica il parametro `diet` in `src/services/api.jsx`.
 
-Contribuire
+## Contribuire
 
 Se vuoi migliorie, apri una issue o invia una pull request. Alcuni possibili miglioramenti:
 
 - Migliorare la gestione degli errori e i messaggi all'utente
 - Aggiungere test unitari e di integrazione
 
-Licenza
+## Licenza
 
 Questo progetto è rilasciato sotto licenza MIT. Vedi il file `LICENSE.txt` nella root del repository per i dettagli.
 
-Contatti
+## Contatti
 
 Questo progetto è un esempio didattico; per domande o richieste particolari apri una issue nel repository.
