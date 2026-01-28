@@ -61,7 +61,7 @@ Per eseguire ESLint sul progetto:
 npm run lint
 ```
 
-Per effettuare deploy della dist buildata usando gh-pages:
+Per effettuare deploy del contenuto di /dist buildata usando gh-pages (da installare se non presente nei node-modules):
 
 ```bash
 npm run deploy
