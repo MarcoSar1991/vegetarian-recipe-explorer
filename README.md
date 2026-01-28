@@ -61,6 +61,12 @@ Per eseguire ESLint sul progetto:
 npm run lint
 ```
 
+Per effettuare deploy della dist buildata usando gh-pages:
+
+```bash
+npm run deploy
+```
+
 ## Percorso e file principali
 
 - `index.html` - template principale
