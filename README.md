@@ -100,6 +100,15 @@ npm run deploy
 - Errore di richiesta o risposta vuota: controlla che `VITE_SPOONACULAR_API_KEY` sia impostata e valida.
 - Limiti di quota Spoonacular: l'API ha limiti nelle richieste; se superi la quota vedrai errori dalla API.
 
+## Limiti dell'account gratuito (Spoonacular)
+
+Per i dettagli sui limiti del piano gratuito consulta la pagina ufficiale delle limitazioni:
+
+https://spoonacular.com/food-api/pricing
+
+Non è dunque possibile, in caso di account free, superare un certo numero di richieste giornaliere, insieme ad altri limiti consultabili da link sopra.
+In caso di superamento dei suddetti limiti, le API restituiranno errore con code 502 ed un messaggio col dettaglio.
+
 ## Suggerimenti per lo sviluppo
 
 - Aggiungi un file `.env.local` (o usa il tuo metodo preferito) per non committare la chiave API.
