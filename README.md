@@ -4,7 +4,7 @@ Un'applicazione demo per cercare e salvare ricette vegetariane basata su React +
 
 L'app usa l'API di Spoonacular per recuperare ricette e i dettagli delle ricette. È studiata come progetto front-end minimale con ricerca, schede dettaglio e gestione dei preferiti lato client (localStorage).
 
-Caratteristiche principali
+## Caratteristiche principali
 
 - Ricerca di ricette vegetariane (10 risultati per ricerca)
 - Visualizzazione dei dettagli della ricetta (ingredienti, istruzioni, tempo e porzioni)
@@ -12,13 +12,13 @@ Caratteristiche principali
 - Interfaccia responsive costruita con Tailwind CSS
 - Contenuti HTML puliti con DOMPurify per evitare XSS nelle descrizioni
 
-Prerequisiti
+## Prerequisiti
 
 - Node.js (consigliato >= 22.20.0)
 - npm (o yarn/pnpm a scelta)
 - Una chiave API di Spoonacular (gratuita con limiti): https://spoonacular.com/food-api
 
-Configurazione (variabili d'ambiente)
+## Configurazione (variabili d'ambiente)
 
 Copia il file di esempio (o crea un nuovo `.env`) nella root del progetto e aggiungi la tua chiave API:
 
@@ -29,7 +29,7 @@ VITE_SPOONACULAR_API_KEY=la_tua_chiave_spoonacular
 
 Note: Vite espone le variabili che iniziano con `VITE_` al codice client, quindi la chiave deve avere il prefisso `VITE_`.
 
-Installazione e comandi utili
+## Installazione e comandi utili
 
 Nella cartella del progetto esegui:
 
