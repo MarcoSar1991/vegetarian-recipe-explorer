@@ -1,131 +1,125 @@
-# Veggie Recipes (React + Vite)
+# Vegetarian Recipe Explorer
 
-Un'applicazione demo per cercare e salvare ricette vegetariane basata su React + Vite.
+Applicazione frontend SPA per cercare, consultare e salvare ricette vegetariane. Il progetto è sviluppato con React, Vite e Tailwind CSS e usa l'API Spoonacular per recuperare ricette e relativi dettagli.
 
-L'app usa l'API di Spoonacular per recuperare ricette e i dettagli delle ricette. È studiata come progetto front-end minimale con ricerca, schede dettaglio e gestione dei preferiti lato client (localStorage).
-
-## Caratteristiche principali
+## Funzionalità principali
 
 - Ricerca di ricette vegetariane (10 risultati per ricerca)
-- Visualizzazione dei dettagli della ricetta (ingredienti, istruzioni, tempo e porzioni)
-- Salvataggio delle ricette preferite in locale (localStorage)
-- Interfaccia responsive costruita con Tailwind CSS
-- Contenuti HTML puliti con DOMPurify per evitare XSS nelle descrizioni
+- Dettagli della ricetta con ingredienti, istruzioni, tempo e porzioni
+- Gestione dei preferiti lato client tramite `localStorage`
+- Interfaccia responsive realizzata con Tailwind CSS
+- Sanitizzazione delle descrizioni HTML con DOMPurify
 
-## Prerequisiti
+## Prerequisiti e configurazione
 
-- Node.js (consigliato >= 22.20.0)
-- npm (o yarn/pnpm a scelta)
-- Una chiave API di Spoonacular (gratuita con limiti): https://spoonacular.com/food-api
+- Node.js 22.20.0 o versione successiva (consigliato)
+- npm
+- Una [chiave API Spoonacular](https://spoonacular.com/food-api)
 
-## Configurazione (variabili d'ambiente)
-
-Copia il file di esempio (o crea un nuovo `.env`) nella root del progetto e aggiungi la tua chiave API:
+Crea `.env.local` dal template versionato:
 
 ```bash
-# file: .env
+cp .env.example .env.local
+```
+
+Apri `.env.local` e assegna la tua chiave:
+
+```dotenv
 VITE_SPOONACULAR_API_KEY=la_tua_chiave_spoonacular
 ```
 
-Note: Vite espone le variabili che iniziano con `VITE_` al codice client, quindi la chiave deve avere il prefisso `VITE_`.
+I file locali `.env` sono esclusi da Git. Dopo aver modificato una variabile d'ambiente, riavvia Vite affinché venga riletta.
 
-## Installazione e comandi utili
+Le variabili con prefisso `VITE_` vengono incorporate nel bundle JavaScript e sono quindi visibili nel browser: non costituiscono un sistema sicuro per proteggere una credenziale. Una soluzione di produzione con credenziali realmente sensibili richiederebbe un backend o un proxy che effettui le chiamate all'API.
 
-Nella cartella del progetto esegui:
+## Sviluppo locale
 
-```bash
-npm install
-```
-
-Per avviare il server di sviluppo (HMR):
+Installa le dipendenze definite nel lockfile e avvia il server di sviluppo:
 
 ```bash
+npm ci
 npm run dev
 ```
 
-Per creare la build di produzione:
+Vite mostra nel terminale l'URL locale dell'applicazione, normalmente:
 
-```bash
-npm run build
+```text
+http://localhost:5173/
 ```
 
-Per avviare una preview della build prod:
+## Quality checks
 
-```bash
-npm run preview
-```
-
-Per eseguire ESLint sul progetto:
+Prima di proporre una modifica, esegui:
 
 ```bash
 npm run lint
+npm run build
 ```
 
-Per effettuare deploy del contenuto di /dist buildata usando gh-pages (da installare se non presente nei node-modules):
+Il primo comando verifica il codice con ESLint. Il secondo crea la build di produzione e genera l'artifact statico nella cartella `dist/`.
 
-```bash
-npm run deploy
+Per controllare localmente la build generata puoi usare `npm run preview`.
+
+## CI/CD
+
+Il workflow GitHub Actions [`.github/workflows/deploy.yml`](.github/workflows/deploy.yml) viene eseguito sulle pull request verso `main` e sui push a `main`.
+
+Durante la build, `VITE_SPOONACULAR_API_KEY` viene fornita tramite il Repository Secret GitHub Actions omonimo, da configurare nelle impostazioni del repository. La chiave non è salvata nel workflow o nel codice sorgente.
+
+Nelle pull request il workflow:
+
+1. installa le dipendenze con `npm ci`;
+2. esegue `npm run lint`;
+3. esegue `npm run build`;
+4. non effettua alcun deploy.
+
+In seguito a un push su `main` il workflow:
+
+1. installa le dipendenze con `npm ci`;
+2. esegue lint e build;
+3. carica la cartella `dist/` come artifact di GitHub Pages;
+4. pubblica automaticamente l'applicazione su GitHub Pages.
+
+## Ambienti e deploy
+
+- **Development:** server Vite locale
+- **Production:** GitHub Pages
+
+Non è previsto un ambiente di staging separato: il progetto è una SPA statica semplice e la pipeline rimane proporzionata alla sua architettura.
+
+Vite compila l'applicazione e produce file statici in `dist/`; GitHub Actions pubblica questi file su GitHub Pages. In produzione non viene eseguito alcun server Node.js.
+
+L'applicazione è disponibile all'indirizzo:
+
+https://marcosar1991.github.io/vegetarian-recipe-explorer/
+
+In `vite.config.js` è configurato:
+
+```js
+base: "/vegetarian-recipe-explorer/"
 ```
 
-## Percorso e file principali
+Questo base path permette di caricare correttamente gli asset dal project site di GitHub Pages.
 
-- `index.html` - template principale
-- `src/main.jsx` - punto d'ingresso React
-- `src/App.jsx` - routing e layout principale
-- `src/pages/Home.jsx` - pagina principale con ricerca
-- `src/pages/RecipeDetails.jsx` - pagina dettagli ricetta
-- `src/pages/Favorites.jsx` - pagina dei preferiti
-- `src/components/` - componenti riusabili (SearchBar, RecipeCard, RecipeGrid)
-- `src/services/api.jsx` - wrapper per chiamate a Spoonacular (usa `import.meta.env.VITE_SPOONACULAR_API_KEY`)
-- `src/context/` - gestione dello stato dei preferiti (context + provider)
-- `tailwind` - configurazione Tailwind integrata tramite dipendenze
+## Struttura principale
 
-## Dipendenze principali
+- `index.html`: template principale
+- `src/main.jsx`: punto di ingresso React
+- `src/App.jsx`: routing e layout principale
+- `src/pages/`: pagine di ricerca, dettagli e preferiti
+- `src/components/`: componenti riutilizzabili
+- `src/services/api.jsx`: chiamate all'API Spoonacular
+- `src/context/`: stato dei preferiti
 
-- react, react-dom — UI
-- vite — dev server e build
-- react-router-dom — routing
-- axios — chiamate HTTP
-- dompurify — sanitizzazione HTML
-- tailwindcss — utility-first CSS
+Le ricerche applicano il filtro `diet=vegetarian`; le descrizioni delle ricette vengono sanitizzate con DOMPurify e i preferiti sono conservati in `localStorage`.
 
-## Dettagli implementativi rilevanti
+## Problemi comuni
 
-- Le ricerche impostano `diet=vegetarian` di default nella chiamata a Spoonacular (`src/services/api.jsx`).
-- La pagina dei dettagli usa `DOMPurify` per sanitizzare `recipe.summary` prima di renderizzare HTML.
-- I preferiti sono salvati in `localStorage` dall'`FavoritesProvider`.
+- In caso di richieste fallite o risposte vuote, verifica che `VITE_SPOONACULAR_API_KEY` sia impostata e valida.
+- L'account gratuito Spoonacular applica limiti alle richieste. Consulta la [pagina dei prezzi e dei limiti](https://spoonacular.com/food-api/pricing).
 
-## Problemi comuni e troubleshooting
+## Repository e licenza
 
-- Errore di richiesta o risposta vuota: controlla che `VITE_SPOONACULAR_API_KEY` sia impostata e valida.
-- Limiti di quota Spoonacular: l'API ha limiti nelle richieste; se superi la quota vedrai errori dalla API.
+Repository: https://github.com/MarcoSar1991/vegetarian-recipe-explorer
 
-## Limiti dell'account gratuito (Spoonacular)
-
-Per i dettagli sui limiti del piano gratuito consulta la pagina ufficiale delle limitazioni:
-
-https://spoonacular.com/food-api/pricing
-
-Non è dunque possibile, in caso di account free, superare un certo numero di richieste giornaliere, insieme ad altri limiti consultabili da link sopra.
-In caso di superamento dei suddetti limiti, le API restituiranno errore con code 502 ed un messaggio col dettaglio.
-
-## Suggerimenti per lo sviluppo
-
-- Aggiungi un file `.env.local` (o usa il tuo metodo preferito) per non committare la chiave API.
-- Per test più robusti, considera di mockare le chiamate HTTP durante i test unitari.
-- Se vuoi rimuovere la limitazione al filtro `vegetarian`, modifica il parametro `diet` in `src/services/api.jsx`.
-
-## Contribuire
-
-Se vuoi migliorie, apri una issue o invia una pull request. Alcuni possibili miglioramenti:
-
-- Migliorare la gestione degli errori e i messaggi all'utente
-- Aggiungere test unitari e di integrazione
-
-## Licenza
-
-Questo progetto è rilasciato sotto licenza MIT. Vedi il file `LICENSE.txt` nella root del repository per i dettagli.
-
-## Contatti
-
-Questo progetto è un esempio didattico; per domande o richieste particolari apri una issue nel repository.
+Il progetto è distribuito con licenza MIT. Consulta [`LICENSE.txt`](LICENSE.txt) per i dettagli.
