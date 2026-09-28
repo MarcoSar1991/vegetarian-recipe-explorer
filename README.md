@@ -12,9 +12,15 @@ Applicazione frontend SPA per cercare, consultare e salvare ricette vegetariane.
 
 ## Prerequisiti e configurazione
 
-- Node.js 22.20.0 o versione successiva (consigliato)
+- Node.js 24 LTS
 - npm
 - Una [chiave API Spoonacular](https://spoonacular.com/food-api)
+
+Se usi `nvm`, dalla root del repository puoi selezionare automaticamente la versione indicata in `.nvmrc`:
+
+```bash
+nvm use
+```
 
 Crea `.env.local` dal template versionato:
 
